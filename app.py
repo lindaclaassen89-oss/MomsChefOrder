@@ -12,7 +12,6 @@ import os
 import platform
 import shutil
 
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -42,9 +41,6 @@ def get_linux_driver():
     # Detect paths
     driver_path = shutil.which("chromedriver")
     browser_path = shutil.which("chromium")
-
-    st.write(f"🔍 chromedriver path: {driver_path}")
-    st.write(f"🔍 chromium path: {browser_path}")
 
     if not driver_path or not browser_path:
         st.error("❌ Could not find chromedriver or chromium in PATH.")
@@ -101,6 +97,7 @@ if (len(days_selected) == 2
 
     driver = get_driver_for_os()
     driver.get("https://momschef.co.za/")
+    wait = WebDriverWait(driver, 10)
 
     for day in days_selected:
 
@@ -146,9 +143,9 @@ if (len(days_selected) == 2
     postcode_input = driver.find_element(By.ID, "billing_postcode")
     postcode_input.send_keys("0181")
 
-    total_bdi = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="order_review"]/table/tfoot/tr[4]/td/strong/span/bdi')))
+    total_bdi = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="order_review"]/table/tfoot/tr[4]/td/strong/span/bdi')))
     if total_bdi.text == "R438,00":
-        place_order_btn = driver.find_element(By.ID, "place_order")
+        place_order_btn = wait.until(EC.element_to_be_clickable((By.ID, "place_order")))
         place_order_btn.click()
         with open("date_log.txt", "a") as file:
             file.write(f"{datetime.today()}\n")
