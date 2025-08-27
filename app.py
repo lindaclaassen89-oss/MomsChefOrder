@@ -150,7 +150,7 @@ if (len(days_selected) == 2
         place_order_btn = wait.until(EC.element_to_be_clickable((By.ID, "place_order")))
         driver.execute_script("arguments[0].scrollIntoView(true);", place_order_btn)
         sleep(3) # neither of the above solved ElementClickInterceptedException
-        # place_order_btn.click()
+        place_order_btn.click()
         with open("date_log.txt", "a") as file:
             file.write(f"{TODAY}\n")
     else:
