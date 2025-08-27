@@ -146,6 +146,7 @@ if (len(days_selected) == 2
     total_bdi = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="order_review"]/table/tfoot/tr[4]/td/strong/span/bdi')))
     if total_bdi.text == "R438,00":
         place_order_btn = wait.until(EC.element_to_be_clickable((By.ID, "place_order")))
+        driver.execute_script("arguments[0].scrollIntoView(true);", place_order_btn)
         place_order_btn.click()
         with open("date_log.txt", "a") as file:
             file.write(f"{datetime.today()}\n")
