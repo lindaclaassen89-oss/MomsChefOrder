@@ -33,10 +33,10 @@ days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 # Display and collect multiselect for days
 days_selected = [day.lower() for day in st.multiselect("Select days:", options=days)]
 
-# day1 = input("Please input day1 required: ").lower()
-# day2 = input("Please input day2 required: ").lower()
+day1 = input("Please input day1 required: ").lower()
+day2 = input("Please input day2 required: ").lower()
 
-# days_selected = [day1, day2]
+days_selected = [day1, day2]
 
 
 def get_linux_driver():
@@ -90,7 +90,7 @@ def get_driver_for_os():
     else:
         raise Exception(f"Unsupported OS: {system}")
     
-
+print(TODAY.strftime("%Y-%m-%d"))
 if (len(days_selected) == 2 
     and TODAY.weekday() == 2 # Wednesday
     and TODAY.strftime("%Y-%m-%d") not in dates): # not yet run today (and thus this week)
