@@ -15,22 +15,13 @@ else:
 
 logger.info(f"Run {st.session_state.run}")
 
-st.title("Daily Task Checklist")
+days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 
-days = {
-    "Monday": False,
-    "Tuesday": False,
-    "Wednesday": False,
-    "Thursday": False,
-    "Friday": False
-}
+# Display multiselect for days
+selected_days = st.multiselect("Select days", options=days)
 
-# Display checkboxes
-for day in days:
-    days[day] = st.multiselect(day)
-
-# Show completed tasks
-days_selected = [day.lower() for day, chosen in days.items() if chosen]
+# Show days selected
+days_selected = [day.lower() for day in selected_days]
 if days_selected:
     logger.info("Days selected:")
     for day in days_selected:
