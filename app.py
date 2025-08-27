@@ -8,7 +8,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-if "run" not in st.session_state():
+if "run" not in st.session_state:
     st.session_state.run = 1
 else:
     st.session_state.run += 1
