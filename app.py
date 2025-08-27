@@ -31,10 +31,10 @@ days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 # Display and collect multiselect for days
 days_selected = [day.lower() for day in st.multiselect("Select days:", options=days)]
 
-day1 = input("Please input day1 required: ").lower()
-day2 = input("Please input day2 required: ").lower()
+# day1 = input("Please input day1 required: ").lower()
+# day2 = input("Please input day2 required: ").lower()
 
-days_selected = [day1, day2]
+# days_selected = [day1, day2]
 
 
 def get_linux_driver():
@@ -145,8 +145,7 @@ if (len(days_selected) == 2
     total_bdi = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="order_review"]/table/tfoot/tr[4]/td/strong/span/bdi')))
     if total_bdi.text == "R438,00":
         place_order_btn = driver.find_element(By.ID, "place_order")
-        # place_order_btn.click()
-
+        place_order_btn.click()
         with open("date_log.txt", "a") as file:
             file.write(f"{datetime.today()}\n")
 
