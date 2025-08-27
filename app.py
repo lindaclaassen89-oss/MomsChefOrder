@@ -10,7 +10,8 @@ import logging
 from datetime import datetime
 import os
 import platform
-import subprocess
+import shutil
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -39,12 +40,15 @@ days_selected = [day.lower() for day in st.multiselect("Select days:", options=d
 
 def get_linux_driver():
     # Detect paths
-    driver_path = subprocess.run(['which', 'chromedriver'], capture_output=True, text=True).stdout.strip()
-    browser_path = subprocess.run(['which', 'chromium'], capture_output=True, text=True).stdout.strip()
+    driver_path = shutil.which("chromedriver")
+    browser_path = shutil.which("chromium")
+
+    st.write(f"🔍 chromedriver path: {driver_path}")
+    st.write(f"🔍 chromium path: {browser_path}")
 
     if not driver_path or not browser_path:
         st.error("❌ Could not find chromedriver or chromium in PATH.")
-        return None
+        st.stop()
 
     # Set up options
     chrome_options = Options()
@@ -148,6 +152,9 @@ if (len(days_selected) == 2
         place_order_btn.click()
         with open("date_log.txt", "a") as file:
             file.write(f"{datetime.today()}\n")
+    else:
+        with open("date_log.txt", "a") as file:
+            file.write(f"{datetime.today()} failed - not R 438\n")
 
 else:
     logger.info(f"\n\nCriteria not met: {datetime.now()}\n\n")
