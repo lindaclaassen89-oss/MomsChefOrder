@@ -7,10 +7,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 import streamlit as st
 import logging
-from datetime import datetime
+from datetime import datetime, date
 import os
 import platform
 import shutil
+
+TODAY = date.today()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -90,8 +92,8 @@ def get_driver_for_os():
     
 
 if (len(days_selected) == 2 
-    and datetime.today().weekday() == 2 # Wednesday
-    and datetime.today().strftime("%Y-%m-%d") not in dates): # not yet run today (and thus this week)
+    and TODAY.weekday() == 2 # Wednesday
+    and TODAY.strftime("%Y-%m-%d") not in dates): # not yet run today (and thus this week)
 
     logger.info(f"\n\nCriteria met: {datetime.now()}\n\n")
 
@@ -147,12 +149,13 @@ if (len(days_selected) == 2
     if total_bdi.text == "R438,00":
         place_order_btn = wait.until(EC.element_to_be_clickable((By.ID, "place_order")))
         driver.execute_script("arguments[0].scrollIntoView(true);", place_order_btn)
+        sleep(3) # neither of the above solved ElementClickInterceptedException
         place_order_btn.click()
         with open("date_log.txt", "a") as file:
-            file.write(f"{datetime.today()}\n")
+            file.write(f"{TODAY}\n")
     else:
         with open("date_log.txt", "a") as file:
-            file.write(f"{datetime.today()} failed - not R 438\n")
+            file.write(f"{TODAY} failed - not R 438\n")
 
 else:
     logger.info(f"\n\nCriteria not met: {datetime.now()}\n\n")
